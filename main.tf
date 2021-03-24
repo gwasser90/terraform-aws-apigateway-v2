@@ -149,7 +149,7 @@ resource "aws_apigatewayv2_integration" "this" {
   dynamic "tls_config" {
     for_each = var.create_vpc_link && try(aws_apigatewayv2_vpc_link.this[each.value["vpc_link"]].id, "") != "" ? lookup(each.value, "tls_config", {}) : {}
     content {
-      server_name_to_verify = tls_config.value["server_name_to_verify"]
+      server_name_to_verify = each.value["tls_config"]["server_name_to_verify"]
     }
   }
 }
